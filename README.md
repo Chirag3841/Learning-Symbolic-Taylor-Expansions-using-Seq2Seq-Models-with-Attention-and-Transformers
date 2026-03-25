@@ -52,8 +52,9 @@ This will:
 ---
 
 ## Results
+<img width="2083" height="581" alt="faseroh_results (4)" src="https://github.com/user-attachments/assets/9caa45b7-edb7-4d09-97da-8d95ed5c9790" />
 
-![Training curves and χ² GOF](faseroh_results.png)
+
 
 **Left:** CE loss curves — the Transformer converges faster and generalises better (val loss ≈ 0.60 vs LSTM ≈ 1.33). The LSTM train loss drops near zero but val loss stays elevated, indicating overfitting. **Centre:** Val perplexity follows the same story — Transformer stabilises at ~1.8× vs LSTM at ~6×. **Right:** The χ²/ndf distribution is centred just below 1, confirming the multinomial histogram samples are well-calibrated against their generating PDFs.
 
