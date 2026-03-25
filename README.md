@@ -22,8 +22,7 @@ faseroh/
 │   └── plot.py          # result figures
 ├── scripts/
 │   └── train_all.py     # end-to-end training entry point
-├── notebooks/
-    └──faseroh_project.py # (place Colab/Jupyter notebooks here)
+├── faseroh_project.py # (place Colab/Jupyter notebooks here)
 ├── pyproject.toml
 ├── requirements.txt
 └── README.md
