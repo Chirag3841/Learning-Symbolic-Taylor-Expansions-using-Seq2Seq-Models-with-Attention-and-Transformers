@@ -12,7 +12,7 @@ underlying histogram dataset with a chi-squared goodness-of-fit test.
 
 ```
 faseroh/
-├── src/faseroh/
+├── src
 │   ├── __init__.py      # public API
 │   ├── data.py          # Taylor dataset + histogram PDF generation
 │   ├── tokenizer.py     # tokenise / vocabulary
@@ -22,7 +22,8 @@ faseroh/
 │   └── plot.py          # result figures
 ├── scripts/
 │   └── train_all.py     # end-to-end training entry point
-├── notebooks/           # (place Colab/Jupyter notebooks here)
+├── notebooks/
+    └──faseroh_project.py # (place Colab/Jupyter notebooks here)
 ├── pyproject.toml
 ├── requirements.txt
 └── README.md
