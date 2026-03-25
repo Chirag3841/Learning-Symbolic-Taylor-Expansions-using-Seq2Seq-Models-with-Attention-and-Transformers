@@ -1,7 +1,6 @@
 # Learning-Symbolic-Taylor-Expansions-using-Seq2Seq-Models-with-Attention-and-Transformers
 # FASEROH
-
-**FA**st **SE**q2seq for symbolic **R**easoning **O**n **H**istograms
+Fast Accurate Symbolic Empirical Representation Of Histograms
 
 Trains an LSTM (with Bahdanau attention) and a Transformer to predict the
 degree-4 Maclaurin expansion of a symbolic expression — and validates the
