@@ -37,6 +37,7 @@ faseroh/
 │   └── train_all.py     # end-to-end training entry point
 ├── faseroh_project.py # (place Colab/Jupyter notebooks here)
 ├── pyproject.toml
+├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
