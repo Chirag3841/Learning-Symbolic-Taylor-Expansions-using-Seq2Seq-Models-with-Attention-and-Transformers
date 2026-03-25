@@ -2,9 +2,22 @@
 # FASEROH
 Fast Accurate Symbolic Empirical Representation Of Histograms
 
-Trains an LSTM (with Bahdanau attention) and a Transformer to predict the
-degree-4 Maclaurin expansion of a symbolic expression — and validates the
-underlying histogram dataset with a chi-squared goodness-of-fit test.
+##  Overview
+
+This project explores neural approaches to symbolic mathematical reasoning by training sequence-to-sequence (seq2seq) models to generate degree-4 Maclaurin (Taylor) expansions of symbolic expressions.
+Additionally, the project validates a synthetic histogram dataset using a χ² (chi-squared) goodness-of-fit test to ensure statistical correctness.
+The core idea is to treat symbolic mathematics as a translation problem:
+function → Taylor expansion
+
+---
+
+##  Motivation
+
+Seq2seq models have shown strong performance in neural machine translation. This project applies similar ideas to symbolic mathematics, where:
+- exact precision is important  
+- structural understanding is critical  
+- neural models struggle with numerical accuracy  
+This work highlights both the strengths and limitations of neural symbolic learning.
 
 ---
 
@@ -65,7 +78,20 @@ This will:
 | LSTM | test | 1.5701 | 4.81 | 70.1% | 7.9% |
 | Transformer | test | 0.6043 | 1.83 | 81.1% | 1.8% |
 
-The Transformer wins on token-level accuracy by ~10 pp, but the LSTM achieves higher **sequence accuracy** (9.8% vs 1.5% on val). This is likely because the LSTM's beam search explores a more diverse set of candidate sequences given its recurrent state, while the Transformer tends to produce locally plausible but globally incorrect expansions. Both models have meaningful room for improvement — longer training, larger model size, or data augmentation are natural next steps.
+## Observations
+Transformer achieves higher token accuracy (~80%)
+LSTM achieves higher sequence accuracy (~8–10%)
+Models learn correct polynomial structure
+Errors mainly occur in numerical coefficients
+
+ ## Key Insight
+
+Neural models capture symbolic structure effectively but struggle with precise numerical reasoning.
+
+##  Visualizations
+Loss curves show stable convergence (Transformer better)
+Perplexity indicates better generalization
+χ²/ndf ≈ 1 confirms dataset validity
 
 ---
 
