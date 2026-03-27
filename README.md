@@ -23,8 +23,10 @@ faseroh/
 ```
 
 ## Quick start
+```
 pip install -r requirements.txt
 python scripts/train_all.py --lstm-epochs 40 --tf-epochs 80
+```
 
 Results are saved to faseroh_results.png.
 <img width="2098" height="581" alt="faseroh_results (4)" src="https://github.com/user-attachments/assets/f905dfc3-1db4-4fcb-8a22-04371ea5d9fd" />
@@ -98,10 +100,13 @@ Val perplexity — per-epoch validation perplexity
 χ² / ndf — histogram goodness-of-fit (ideal ≈ 1)
 
 ## Requirements
+```
 Python ≥ 3.10
 PyTorch ≥ 2.2
 SymPy, SciPy, scikit-learn, matplotlib
-
+```
 ## Author
+```
 Chirag Sharma
 BTech CSE — MSIT Delhi
+```
