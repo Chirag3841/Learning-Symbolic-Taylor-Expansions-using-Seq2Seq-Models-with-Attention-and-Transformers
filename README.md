@@ -8,16 +8,16 @@ faseroh/
 ├── src/
 │   ├── __init__.py      # public API re-exports
 │   ├── data.py          # Taylor dataset + histogram PDF generation
-│   ├── tokenizer.py     # tokenise / vocabulary
-│   ├── dataset.py       # PyTorch Dataset & DataLoader helpers
-│   ├── models.py        # LSTMSeq2Seq, TransformerSeq2Seq
-│   ├── train.py         # training loop, metrics, chi-squared GOF
-│   └── plot.py          # result figures
+│   ├── tokenizer.py     # tokenisation and vocabulary
+│   ├── dataset.py       # PyTorch Dataset and DataLoader helpers
+│   ├── models.py        # LSTMSeq2Seq and TransformerSeq2Seq
+│   ├── train.py         # training loop, metrics, χ² goodness-of-fit
+│   └── plot.py          # result visualisation
 ├── scripts/
 │   └── train_all.py     # end-to-end training entry point
-├── pyproject.toml
-├── requirements.txt
-└── README.md
+├── pyproject.toml       # project configuration
+├── requirements.txt     # dependencies
+└── README.md            # project documentation
 
 ## Quick start
 pip install -r requirements.txt
@@ -62,6 +62,7 @@ Results are saved to faseroh_results.png.
 | 20/40 | 0.452      | 1.015    | 0.10     | 2.8 |
 | 30/40 | 0.182      | 0.908    | 0.10     | 2.5 |
 | 40/40 | 0.058      | 0.936    | 0.10     | 2.5 |
+
 | Metric        | Value  |
 | ------------- | ------ |
 | Training Time | 208s   |
@@ -79,6 +80,7 @@ Results are saved to faseroh_results.png.
 | 60/80 | 0.071      | 0.306    | 0.10     | 1.4 |
 | 70/80 | 0.041      | 0.317    | 0.10     | 1.4 |
 | 80/80 | 0.030      | 0.316    | 0.10     | 1.4 |
+
 | Metric        | Value  |
 | ------------- | ------ |
 | Training Time | 210s   |
