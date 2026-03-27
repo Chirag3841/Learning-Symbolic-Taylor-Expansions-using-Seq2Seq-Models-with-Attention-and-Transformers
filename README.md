@@ -4,6 +4,7 @@ Seq2seq models (LSTM + Transformer) that learn to expand symbolic expressions
 into their 4th-order Taylor series around x = 0.
 
 ## Project layout
+```
 faseroh/
 ├── src/
 │   ├── __init__.py      # public API re-exports
@@ -18,6 +19,7 @@ faseroh/
 ├── pyproject.toml       # project configuration
 ├── requirements.txt     # dependencies
 └── README.md            # project documentation
+```
 
 ## Quick start
 pip install -r requirements.txt
