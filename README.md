@@ -16,6 +16,7 @@ faseroh/
 │   └── plot.py          # result visualisation
 ├── scripts/
 │   └── train_all.py     # end-to-end training entry point
+├── .gitignore
 ├── pyproject.toml       # project configuration
 ├── requirements.txt     # dependencies
 └── README.md            # project documentation
