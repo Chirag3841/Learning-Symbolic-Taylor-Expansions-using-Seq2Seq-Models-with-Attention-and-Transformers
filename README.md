@@ -28,46 +28,64 @@ Results are saved to faseroh_results.png.
 
 
 ## CLI options
-flag	default	description
---lstm-epochs	40	training epochs for the LSTM
---tf-epochs	80	training epochs for the Transformer
---out	faseroh_results.png	output plot path
---checkpoint-dir	/tmp	directory for .pt checkpoints
-Module overview
-module	responsibility
-src/data.py	generate Taylor pairs and histogram samples
-src/tokenizer.py	character-level tokeniser + vocab
-src/dataset.py	TaylorDS dataset + train/val/test split
-src/models.py	LSTM (Bahdanau attention) + Transformer
-src/train.py	training loop, metrics, χ² GOF
-src/plot.py	result visualization
+| Flag               | Default               | Description                         |
+| ------------------ | --------------------- | ----------------------------------- |
+| `--lstm-epochs`    | 40                    | Training epochs for the LSTM        |
+| `--tf-epochs`      | 80                    | Training epochs for the Transformer |
+| `--out`            | `faseroh_results.png` | Output plot path                    |
+| `--checkpoint-dir` | `/tmp`                | Directory for `.pt` checkpoints     |
+
+## Module overview
+| Module             | Responsibility                              |
+| ------------------ | ------------------------------------------- |
+| `src/data.py`      | Generate Taylor pairs and histogram samples |
+| `src/tokenizer.py` | Character-level tokenizer and vocabulary    |
+| `src/dataset.py`   | `TaylorDS` dataset and train/val/test split |
+| `src/models.py`    | LSTM (Bahdanau attention) and Transformer   |
+| `src/train.py`     | Training loop, metrics, χ² goodness-of-fit  |
+| `src/plot.py`      | Result visualization                        |
+
+
 
 ## Results
-Model	Split	Loss ↓	PPL ↓	Token Acc ↑	Seq Acc ↑
-LSTM	Val	0.7891	2.20	80.6%	2.5%
-Transformer	Val	0.2754	1.32	92.0%	13.8%
-LSTM	Test	0.8472	2.33	80.3%	3.4%
-Transformer	Test	0.2922	1.34	92.3%	8.0%
-Training logs (summary)
-device=cuda  vocab=155  lstm_epochs=40  tf_epochs=80
+| Model       | Split | Loss ↓ | PPL ↓ | Token Acc ↑ | Seq Acc ↑ |
+| ----------- | ----- | ------ | ----- | ----------- | --------- |
+| LSTM        | Val   | 0.7891 | 2.20  | 80.6%       | 2.5%      |
+| Transformer | Val   | 0.2754 | 1.32  | 92.0%       | 13.8%     |
+| LSTM        | Test  | 0.8472 | 2.33  | 80.3%       | 3.4%      |
+| Transformer | Test  | 0.2922 | 1.34  | 92.3%       | 8.0%      |
 
 [LSTM]
-  ep 10/40  tr=0.877  vl=1.284  tf=0.25  ppl=3.6
-  ep 20/40  tr=0.452  vl=1.015  tf=0.10  ppl=2.8
-  ep 30/40  tr=0.182  vl=0.908  tf=0.10  ppl=2.5
-  ep 40/40  tr=0.058  vl=0.936  tf=0.10  ppl=2.5
-  done in 208s  best_val=0.7891
+| Epoch | Train Loss | Val Loss | TF Ratio | PPL |
+| ----- | ---------- | -------- | -------- | --- |
+| 10/40 | 0.877      | 1.284    | 0.25     | 3.6 |
+| 20/40 | 0.452      | 1.015    | 0.10     | 2.8 |
+| 30/40 | 0.182      | 0.908    | 0.10     | 2.5 |
+| 40/40 | 0.058      | 0.936    | 0.10     | 2.5 |
+| Metric        | Value  |
+| ------------- | ------ |
+| Training Time | 208s   |
+| Best Val Loss | 0.7891 |
+
 
 [Transformer]
-  ep 10/80  tr=0.493  vl=0.482  tf=0.38  ppl=1.6
-  ep 20/80  tr=0.307  vl=0.355  tf=0.25  ppl=1.4
-  ep 30/80  tr=0.218  vl=0.317  tf=0.12  ppl=1.4
-  ep 40/80  tr=0.174  vl=0.305  tf=0.10  ppl=1.4
-  ep 50/80  tr=0.090  vl=0.282  tf=0.10  ppl=1.3
-  ep 60/80  tr=0.071  vl=0.306  tf=0.10  ppl=1.4
-  ep 70/80  tr=0.041  vl=0.317  tf=0.10  ppl=1.4
-  ep 80/80  tr=0.030  vl=0.316  tf=0.10  ppl=1.4
-  done in 210s  best_val=0.2754
+| Epoch | Train Loss | Val Loss | TF Ratio | PPL |
+| ----- | ---------- | -------- | -------- | --- |
+| 10/80 | 0.493      | 0.482    | 0.38     | 1.6 |
+| 20/80 | 0.307      | 0.355    | 0.25     | 1.4 |
+| 30/80 | 0.218      | 0.317    | 0.12     | 1.4 |
+| 40/80 | 0.174      | 0.305    | 0.10     | 1.4 |
+| 50/80 | 0.090      | 0.282    | 0.10     | 1.3 |
+| 60/80 | 0.071      | 0.306    | 0.10     | 1.4 |
+| 70/80 | 0.041      | 0.317    | 0.10     | 1.4 |
+| 80/80 | 0.030      | 0.316    | 0.10     | 1.4 |
+| Metric        | Value  |
+| ------------- | ------ |
+| Training Time | 210s   |
+| Best Val Loss | 0.2754 |
+
+
+
  
 ## Output figure panels
 Loss — train/val CE loss curves
