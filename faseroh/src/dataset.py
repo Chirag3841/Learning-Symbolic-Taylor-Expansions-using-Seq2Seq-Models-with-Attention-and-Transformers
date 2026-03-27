@@ -1,62 +1,87 @@
-"""dataset.py — PyTorch Dataset and DataLoader helpers."""
+# src/dataset.py
+"""
+PyTorch Dataset and DataLoader helpers for the Taylor-series task.
+
+Public API
+----------
+TaylorDS          – torch.utils.data.Dataset subclass
+make_dataloaders  – returns (train_dl, val_dl, test_dl, tr_idx, va_idx, te_idx)
+"""
 
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.nn.utils.rnn import pad_sequence
 from sklearn.model_selection import train_test_split
 
-from .tokenizer import Vocabulary
+from .tokenizer import encode, PAD, SOS, EOS
 
+
+# --------------------------------------------------------------------------- #
+#  Dataset
+# --------------------------------------------------------------------------- #
 
 class TaylorDS(Dataset):
-    """Map-style dataset wrapping a subset of taylor_data by index list."""
+    """
+    Wraps a list of {"src": str, "tgt": str} dicts.
+    Selects entries by index list so train/val/test share one backing store.
+    """
 
-    def __init__(self, data: list[dict], indices: list[int], vocab: Vocabulary):
-        self.data  = data
-        self.idx   = indices
-        self.vocab = vocab
+    def __init__(self, taylor_data: list[dict], indices: list[int]):
+        self.data = taylor_data
+        self.idx  = indices
 
     def __len__(self) -> int:
         return len(self.idx)
 
     def __getitem__(self, i: int):
         d   = self.data[self.idx[i]]
-        src = torch.tensor(self.vocab.encode(d["src"]), dtype=torch.long)
-        tgt = torch.tensor(
-            [self.vocab.SOS] + self.vocab.encode(d["tgt"]) + [self.vocab.EOS],
-            dtype=torch.long,
-        )
+        src = torch.tensor(encode(d["src"]), dtype=torch.long)
+        tgt = torch.tensor([SOS] + encode(d["tgt"]) + [EOS], dtype=torch.long)
         return src, tgt
 
 
-def collate_fn(batch, pad_value: int = 0):
+# --------------------------------------------------------------------------- #
+#  Collate + DataLoaders
+# --------------------------------------------------------------------------- #
+
+def _collate(batch):
     srcs, tgts = zip(*batch)
     return (
-        pad_sequence(srcs, batch_first=True, padding_value=pad_value),
-        pad_sequence(tgts, batch_first=True, padding_value=pad_value),
+        pad_sequence(srcs, batch_first=True, padding_value=PAD),
+        pad_sequence(tgts, batch_first=True, padding_value=PAD),
     )
 
 
 def make_dataloaders(
-    data: list[dict],
-    vocab: Vocabulary,
+    taylor_data: list[dict],
     batch_size: int = 32,
     test_size: float = 0.2,
-    val_ratio: float = 0.5,
-    seed: int = 42,
-) -> tuple[DataLoader, DataLoader, DataLoader, list, list, list]:
+    val_fraction: float = 0.5,
+    random_state: int = 42,
+    num_workers: int = 0,
+):
     """
-    Split data and return (train_dl, val_dl, test_dl, tr_idx, va_idx, te_idx).
+    Split *taylor_data* into train / val / test and return DataLoaders.
+
+    Returns
+    -------
+    train_dl, val_dl, test_dl, tr_idx, va_idx, te_idx
     """
-    all_idx = list(range(len(data)))
-    tr_idx, tmp    = train_test_split(all_idx, test_size=test_size,  random_state=seed)
-    va_idx, te_idx = train_test_split(tmp,     test_size=val_ratio,  random_state=seed)
+    all_idx = list(range(len(taylor_data)))
+    tr_idx, tmp   = train_test_split(all_idx,  test_size=test_size,    random_state=random_state)
+    va_idx, te_idx = train_test_split(tmp,      test_size=val_fraction, random_state=random_state)
 
-    pad = vocab.PAD
-    cfn = lambda b: collate_fn(b, pad_value=pad)
+    print(f"train: {len(tr_idx)}  val: {len(va_idx)}  test: {len(te_idx)}")
 
-    train_dl = DataLoader(TaylorDS(data, tr_idx, vocab), batch_size=batch_size, shuffle=True,  collate_fn=cfn)
-    val_dl   = DataLoader(TaylorDS(data, va_idx, vocab), batch_size=batch_size,                collate_fn=cfn)
-    test_dl  = DataLoader(TaylorDS(data, te_idx, vocab), batch_size=batch_size,                collate_fn=cfn)
+    loader_kwargs = dict(
+        batch_size=batch_size,
+        collate_fn=_collate,
+        pin_memory=True,
+        num_workers=num_workers,
+    )
+
+    train_dl = DataLoader(TaylorDS(taylor_data, tr_idx), shuffle=True,  **loader_kwargs)
+    val_dl   = DataLoader(TaylorDS(taylor_data, va_idx), shuffle=False, **loader_kwargs)
+    test_dl  = DataLoader(TaylorDS(taylor_data, te_idx), shuffle=False, **loader_kwargs)
 
     return train_dl, val_dl, test_dl, tr_idx, va_idx, te_idx
