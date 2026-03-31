@@ -1,4 +1,4 @@
-"# src/plot.py
+# src/plot.py
 """
 Plotting utilities for FASEROH training results.
 
